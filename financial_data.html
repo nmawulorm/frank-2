@@ -7911,6 +7911,239 @@ Average R^2 Score: 0.9935694317250183
 </div>
 </div>
 </div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fa2c61dc13bddf22">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Python-code-to-import-and-structure-data">Python code to import and structure data<a class="anchor-link" href="#Python-code-to-import-and-structure-data">¶</a></h1>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=ff2553efd9e9bcab">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">tweepy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Twitter API Credentials</span>
+<span class="n">API_KEY</span> <span class="o">=</span> <span class="s1">'your_api_key'</span>
+<span class="n">API_SECRET</span> <span class="o">=</span> <span class="s1">'your_api_secret'</span>
+<span class="n">ACCESS_TOKEN</span> <span class="o">=</span> <span class="s1">'your_access_token'</span>
+<span class="n">ACCESS_SECRET</span> <span class="o">=</span> <span class="s1">'your_access_secret'</span>
+
+<span class="c1"># Authenticate</span>
+<span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuthHandler</span><span class="p">(</span><span class="n">API_KEY</span><span class="p">,</span> <span class="n">API_SECRET</span><span class="p">)</span>
+<span class="n">auth</span><span class="o">.</span><span class="n">set_access_token</span><span class="p">(</span><span class="n">ACCESS_TOKEN</span><span class="p">,</span> <span class="n">ACCESS_SECRET</span><span class="p">)</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">wait_on_rate_limit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Fetch tweets</span>
+<span class="n">query</span> <span class="o">=</span> <span class="s2">"#StockMarket"</span>
+<span class="n">tweets</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">Cursor</span><span class="p">(</span><span class="n">api</span><span class="o">.</span><span class="n">search_tweets</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">query</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">tweet_mode</span><span class="o">=</span><span class="s1">'extended'</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="n">tweet</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span> <span class="n">tweet</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">screen_name</span><span class="p">,</span> <span class="n">tweet</span><span class="o">.</span><span class="n">full_text</span><span class="p">]</span> <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">tweets</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Timestamp'</span><span class="p">,</span> <span class="s1">'User'</span><span class="p">,</span> <span class="s1">'Tweet'</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:300: SyntaxWarning: invalid escape sequence '\['
+  """home_timeline(*, count, since_id, max_id, trim_user, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:340: SyntaxWarning: invalid escape sequence '\['
+  """mentions_timeline(*, count, since_id, max_id, trim_user, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:375: SyntaxWarning: invalid escape sequence '\['
+  """user_timeline(*, user_id, screen_name, since_id, count, max_id, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:425: SyntaxWarning: invalid escape sequence '\['
+  """get_favorites(*, user_id, screen_name, count, since_id, max_id, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:466: SyntaxWarning: invalid escape sequence '\['
+  """lookup_statuses(id, *, include_entities, trim_user, map, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:608: SyntaxWarning: invalid escape sequence '\['
+  """get_retweeter_ids(id, *, count, cursor, stringify_ids)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:643: SyntaxWarning: invalid escape sequence '\['
+  """get_retweets(id, *, count, trim_user)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:676: SyntaxWarning: invalid escape sequence '\['
+  """get_retweets_of_me(*, count, since_id, max_id, trim_user, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:1120: SyntaxWarning: invalid escape sequence '\ '
+  """search_tweets(q, *, geocode, lang, locale, result_type, count, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:1232: SyntaxWarning: invalid escape sequence '\['
+  """get_lists(*, user_id, screen_name, reverse)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:1277: SyntaxWarning: invalid escape sequence '\['
+  """get_list_members(*, list_id, slug, owner_screen_name, owner_id, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:1374: SyntaxWarning: invalid escape sequence '\['
+  """get_list_memberships(*, user_id, screen_name, count, cursor, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:1417: SyntaxWarning: invalid escape sequence '\['
+  """get_list_ownerships(*, user_id, screen_name, count, cursor)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:1484: SyntaxWarning: invalid escape sequence '\['
+  """list_timeline( \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:1535: SyntaxWarning: invalid escape sequence '\['
+  """get_list_subscribers( \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:1634: SyntaxWarning: invalid escape sequence '\['
+  """get_list_subscriptions(*, user_id, screen_name, count, cursor)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2002: SyntaxWarning: invalid escape sequence '\['
+  """get_follower_ids(*, user_id, screen_name, cursor, stringify_ids, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2041: SyntaxWarning: invalid escape sequence '\['
+  """get_followers(*, user_id, screen_name, cursor, count, skip_status, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2083: SyntaxWarning: invalid escape sequence '\['
+  """get_friend_ids(*, user_id, screen_name, cursor, stringify_ids, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2122: SyntaxWarning: invalid escape sequence '\['
+  """get_friends(*, user_id, screen_name, cursor, count, skip_status, \
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2164: SyntaxWarning: invalid escape sequence '\['
+  """incoming_friendships(*, cursor, stringify_ids)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2195: SyntaxWarning: invalid escape sequence '\['
+  """lookup_friendships(*, screen_name, user_id)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2224: SyntaxWarning: invalid escape sequence '\['
+  """no_retweets_friendships(*, stringify_ids)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2251: SyntaxWarning: invalid escape sequence '\['
+  """outgoing_friendships(*, cursor, stringify_ids)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2318: SyntaxWarning: invalid escape sequence '\['
+  """lookup_users(*, screen_name, user_id, include_entities, tweet_mode)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2365: SyntaxWarning: invalid escape sequence '\['
+  """search_users(q, *, page, count, include_entities)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2584: SyntaxWarning: invalid escape sequence '\['
+  """get_saved_searches()
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2899: SyntaxWarning: invalid escape sequence '\['
+  """get_blocked_ids(*, stringify_ids, cursor)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2931: SyntaxWarning: invalid escape sequence '\['
+  """get_blocks(*, include_entities, skip_status, cursor)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2965: SyntaxWarning: invalid escape sequence '\['
+  """get_muted_ids(*, stringify_ids, cursor)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:2996: SyntaxWarning: invalid escape sequence '\['
+  """get_mutes(*, cursor, include_entities, skip_status)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:3211: SyntaxWarning: invalid escape sequence '\['
+  """get_direct_messages(*, count, cursor)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:3880: SyntaxWarning: invalid escape sequence '\['
+  """reverse_geocode(lat, long, *, accuracy, granularity, max_results)
+C:\Users\nmawu\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:3921: SyntaxWarning: invalid escape sequence '\['
+  """search_geo(*, lat, long, query, ip, granularity, max_results)
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">Unauthorized</span>                              Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[2], line 19</span>
+<span class="ansi-green-fg">     16</span> query <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">#StockMarket</span><span style="color: rgb(175,0,0)">"</span>
+<span class="ansi-green-fg">     17</span> tweets <span style="color: rgb(98,98,98)">=</span> tweepy<span style="color: rgb(98,98,98)">.</span>Cursor(api<span style="color: rgb(98,98,98)">.</span>search_tweets, q<span style="color: rgb(98,98,98)">=</span>query, lang<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">en</span><span style="color: rgb(175,0,0)">"</span>, tweet_mode<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">extended</span><span style="color: rgb(175,0,0)">'</span>)<span style="color: rgb(98,98,98)">.</span>items(<span style="color: rgb(98,98,98)">100</span>)
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 19</span> data <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg">tweet</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">created_at</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">tweet</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">user</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">screen_name</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">tweet</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">full_text</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">for</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">tweet</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,0,255)">in</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">tweets</span><span class="ansi-yellow-bg">]</span>
+<span class="ansi-green-fg">     20</span> df <span style="color: rgb(98,98,98)">=</span> pd<span style="color: rgb(98,98,98)">.</span>DataFrame(data, columns<span style="color: rgb(98,98,98)">=</span>[<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">Timestamp</span><span style="color: rgb(175,0,0)">'</span>, <span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">User</span><span style="color: rgb(175,0,0)">'</span>, <span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">Tweet</span><span style="color: rgb(175,0,0)">'</span>])
+<span class="ansi-green-fg">     22</span> <span style="color: rgb(0,135,0)">print</span>(df<span style="color: rgb(98,98,98)">.</span>head())
+
+File <span class="ansi-green-intense-fg ansi-bold">~\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\cursor.py:86</span>, in <span class="ansi-cyan-fg">BaseIterator.__next__</span><span class="ansi-blue-intense-fg ansi-bold">(self)</span>
+<span class="ansi-green-fg">     85</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span style="color: rgb(0,0,255)">__next__</span>(<span style="color: rgb(0,135,0)">self</span>):
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 86</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">next</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\cursor.py:286</span>, in <span class="ansi-cyan-fg">ItemIterator.next</span><span class="ansi-blue-intense-fg ansi-bold">(self)</span>
+<span class="ansi-green-fg">    283</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">StopIteration</span>
+<span class="ansi-green-fg">    284</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>current_page <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span> <span class="ansi-bold" style="color: rgb(175,0,255)">or</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>page_index <span style="color: rgb(98,98,98)">==</span> <span style="color: rgb(0,135,0)">len</span>(<span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>current_page) <span style="color: rgb(98,98,98)">-</span> <span style="color: rgb(98,98,98)">1</span>:
+<span class="ansi-green-fg">    285</span>     <span style="color: rgb(95,135,135)"># Reached end of current page, get the next page...</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 286</span>     <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>current_page <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">next</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">page_iterator</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    287</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">while</span> <span style="color: rgb(0,135,0)">len</span>(<span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>current_page) <span style="color: rgb(98,98,98)">==</span> <span style="color: rgb(98,98,98)">0</span>:
+<span class="ansi-green-fg">    288</span>         <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>current_page <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">next</span>(<span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>page_iterator)
+
+File <span class="ansi-green-intense-fg ansi-bold">~\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\cursor.py:86</span>, in <span class="ansi-cyan-fg">BaseIterator.__next__</span><span class="ansi-blue-intense-fg ansi-bold">(self)</span>
+<span class="ansi-green-fg">     85</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span style="color: rgb(0,0,255)">__next__</span>(<span style="color: rgb(0,135,0)">self</span>):
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 86</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">next</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\cursor.py:167</span>, in <span class="ansi-cyan-fg">IdIterator.next</span><span class="ansi-blue-intense-fg ansi-bold">(self)</span>
+<span class="ansi-green-fg">    164</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">StopIteration</span>
+<span class="ansi-green-fg">    166</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>index <span style="color: rgb(98,98,98)">&gt;</span><span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">len</span>(<span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>results) <span style="color: rgb(98,98,98)">-</span> <span style="color: rgb(98,98,98)">1</span>:
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 167</span>     data <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">max_id</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">max_id</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">parser</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">RawParser</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">args</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    169</span>     model <span style="color: rgb(98,98,98)">=</span> ModelParser()<span style="color: rgb(98,98,98)">.</span>parse(
+<span class="ansi-green-fg">    170</span>         data, api <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>method<span style="color: rgb(98,98,98)">.</span><span style="color: rgb(0,0,135)">__self__</span>,
+<span class="ansi-green-fg">    171</span>         payload_list<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>method<span style="color: rgb(98,98,98)">.</span>payload_list,
+<span class="ansi-green-fg">    172</span>         payload_type<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>method<span style="color: rgb(98,98,98)">.</span>payload_type
+<span class="ansi-green-fg">    173</span>     )
+<span class="ansi-green-fg">    174</span>     result <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>method<span style="color: rgb(98,98,98)">.</span><span style="color: rgb(0,0,135)">__self__</span><span style="color: rgb(98,98,98)">.</span>parser<span style="color: rgb(98,98,98)">.</span>parse(
+<span class="ansi-green-fg">    175</span>         data, api <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>method<span style="color: rgb(98,98,98)">.</span><span style="color: rgb(0,0,135)">__self__</span>,
+<span class="ansi-green-fg">    176</span>         payload_list<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>method<span style="color: rgb(98,98,98)">.</span>payload_list,
+<span class="ansi-green-fg">    177</span>         payload_type<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>method<span style="color: rgb(98,98,98)">.</span>payload_type
+<span class="ansi-green-fg">    178</span>     )
+
+File <span class="ansi-green-intense-fg ansi-bold">~\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:32</span>, in <span class="ansi-cyan-fg">pagination.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="ansi-blue-intense-fg ansi-bold">(*args, **kwargs)</span>
+<span class="ansi-green-fg">     30</span> <span style="color: rgb(175,0,255)">@functools</span><span style="color: rgb(98,98,98)">.</span>wraps(method)
+<span class="ansi-green-fg">     31</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span style="color: rgb(0,0,255)">wrapper</span>(<span style="color: rgb(98,98,98)">*</span>args, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs):
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 32</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">args</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:45</span>, in <span class="ansi-cyan-fg">payload.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="ansi-blue-intense-fg ansi-bold">(*args, **kwargs)</span>
+<span class="ansi-green-fg">     43</span> kwargs[<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">payload_list</span><span style="color: rgb(175,0,0)">'</span>] <span style="color: rgb(98,98,98)">=</span> payload_list
+<span class="ansi-green-fg">     44</span> kwargs[<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">payload_type</span><span style="color: rgb(175,0,0)">'</span>] <span style="color: rgb(98,98,98)">=</span> payload_type
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 45</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">method</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">args</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:1221</span>, in <span class="ansi-cyan-fg">API.search_tweets</span><span class="ansi-blue-intense-fg ansi-bold">(self, q, **kwargs)</span>
+<span class="ansi-green-fg">   1117</span> <span style="color: rgb(175,0,255)">@pagination</span>(mode<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">id</span><span style="color: rgb(175,0,0)">'</span>)
+<span class="ansi-green-fg">   1118</span> <span style="color: rgb(175,0,255)">@payload</span>(<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">search_results</span><span style="color: rgb(175,0,0)">'</span>)
+<span class="ansi-green-fg">   1119</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span><span style="color: rgb(188,188,188)"> </span><span style="color: rgb(0,0,255)">search_tweets</span>(<span style="color: rgb(0,135,0)">self</span>, q, <span style="color: rgb(98,98,98)">*</span><span style="color: rgb(98,98,98)">*</span>kwargs):
+<span class="ansi-green-fg">   1120</span> <span style="color: rgb(188,188,188)">    </span><span style="color: rgb(175,0,0)">"""search_tweets(q, *, geocode, lang, locale, result_type, count, \</span>
+<span class="ansi-green-fg">   1121</span> <span style="color: rgb(175,0,0)">                     until, since_id, max_id, include_entities)</span>
+<span class="ansi-green-fg">   1122</span> 
+<span class="ansi-green-intense-fg ansi-bold">   (...)</span>
+<span class="ansi-green-fg">   1219</span> <span style="color: rgb(175,0,0)">        2023.: https://twittercommunity.com/t/x-api-v2-migration/203391</span>
+<span class="ansi-green-fg">   1220</span> <span style="color: rgb(175,0,0)">    """</span>
+<span class="ansi-green-intense-fg ansi-bold">-&gt; 1221</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">request</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">   1222</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">GET</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">search/tweets</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">endpoint_parameters</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">   1223</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">q</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">geocode</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">lang</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">locale</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">result_type</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">count</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">   1224</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">until</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">since_id</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">max_id</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">include_entities</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span>
+<span class="ansi-green-fg">   1225</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">q</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">q</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">kwargs</span>
+<span class="ansi-green-fg">   1226</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\PycharmProjects\Frank2\.venv\Lib\site-packages\tweepy\api.py:268</span>, in <span class="ansi-cyan-fg">API.request</span><span class="ansi-blue-intense-fg ansi-bold">(self, method, endpoint, endpoint_parameters, params, headers, json_payload, parser, payload_list, payload_type, post_data, files, require_auth, return_cursors, upload_api, use_cache, **kwargs)</span>
+<span class="ansi-green-fg">    266</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> BadRequest(resp)
+<span class="ansi-green-fg">    267</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> resp<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> <span style="color: rgb(98,98,98)">401</span>:
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 268</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> Unauthorized(resp)
+<span class="ansi-green-fg">    269</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> resp<span style="color: rgb(98,98,98)">.</span>status_code <span style="color: rgb(98,98,98)">==</span> <span style="color: rgb(98,98,98)">403</span>:
+<span class="ansi-green-fg">    270</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> Forbidden(resp)
+
+<span class="ansi-red-intense-fg ansi-bold">Unauthorized</span>: 401 Unauthorized
+89 - Invalid or expired token.</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=2db4381fa1f79257">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">vaderSentiment.vaderSentiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentimentIntensityAnalyzer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Initialize VADER</span>
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">SentimentIntensityAnalyzer</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'Sentiment'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Tweet'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">polarity_scores</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="s1">'compound'</span><span class="p">])</span>
+
+<span class="c1"># Plot sentiment distribution</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'Sentiment'</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Sentiment Distribution of Stock Market Tweets"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </main>
 </body>
 </html>
